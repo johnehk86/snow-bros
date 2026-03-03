@@ -104,7 +104,10 @@ export class TitleScreen {
             this.renderer.drawText('PRESS ENTER TO START', GAME_WIDTH / 2, 204, '#ffff88', 8, 'center');
         }
 
-        // Credits
-        this.renderer.drawText('Original \u00A9 Toaplan 1990', GAME_WIDTH / 2, GAME_HEIGHT - 14, '#334466', 8, 'center');
+        // Ad banner
+        const adGlow = Math.sin(this.blinkTimer * 0.08) * 0.3 + 0.7;
+        const adColor = `rgba(255, 200, 100, ${adGlow})`;
+        this.renderer.drawText('More fun AI games at', GAME_WIDTH / 2, GAME_HEIGHT - 28, '#88aacc', 8, 'center');
+        this.renderer.drawText('aicraftlog.com', GAME_WIDTH / 2, GAME_HEIGHT - 16, adColor, 8, 'center');
     }
 }
