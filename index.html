@@ -2,13 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover">
     <title>Snow Bros: Nick & Tom</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div id="game-container">
         <canvas id="game-canvas"></canvas>
+        <div id="touch-controls">
+            <div id="touch-dpad">
+                <button class="touch-btn" data-key="left">&#9664;</button>
+                <button class="touch-btn" data-key="down">&#9660;</button>
+                <button class="touch-btn" data-key="right">&#9654;</button>
+            </div>
+            <div id="touch-actions">
+                <button class="touch-btn action-btn" data-key="jump">JUMP</button>
+                <button class="touch-btn action-btn" data-key="shoot">SNOW</button>
+            </div>
+        </div>
     </div>
     <script type="module" src="js/main.js"></script>
 </body>

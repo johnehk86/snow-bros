@@ -4,17 +4,30 @@
     box-sizing: border-box;
 }
 
-body {
+html, body {
     background: #111;
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
 }
 
 #game-container {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 #game-canvas {
@@ -22,4 +35,91 @@ body {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     background: #000;
+}
+
+/* Touch Controls */
+#touch-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 16px;
+    flex-shrink: 0;
+}
+
+#touch-dpad {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#touch-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.touch-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+    opacity: 0.6;
+    cursor: pointer;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+.touch-btn:active {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.action-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.action-btn[data-key="jump"] {
+    background: rgba(68, 136, 255, 0.3);
+    border-color: rgba(68, 136, 255, 0.6);
+    color: #88bbff;
+}
+
+.action-btn[data-key="jump"]:active {
+    background: rgba(68, 136, 255, 0.5);
+}
+
+.action-btn[data-key="shoot"] {
+    background: rgba(255, 68, 68, 0.3);
+    border-color: rgba(255, 68, 68, 0.6);
+    color: #ff8888;
+}
+
+.action-btn[data-key="shoot"]:active {
+    background: rgba(255, 68, 68, 0.5);
+}
+
+/* Hide touch controls on desktop */
+@media (hover: hover) and (pointer: fine) {
+    #touch-controls {
+        display: none;
+    }
+
+    body {
+        position: static;
+        min-height: 100vh;
+    }
 }

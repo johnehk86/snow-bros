@@ -20,10 +20,24 @@ export class Renderer {
     resize() {
         const maxW = window.innerWidth;
         const maxH = window.innerHeight;
-        const scale = Math.min(
-            Math.floor(maxW / GAME_WIDTH),
-            Math.floor(maxH / GAME_HEIGHT)
-        ) || 1;
+
+        // On mobile (touch controls visible), reserve space for controls
+        const touchControls = document.getElementById('touch-controls');
+        const isMobile = touchControls && touchControls.offsetHeight > 0;
+        const controlsHeight = isMobile ? touchControls.offsetHeight : 0;
+        const availableH = maxH - controlsHeight;
+
+        let scale;
+        if (isMobile) {
+            // Allow fractional scale on mobile to fill the screen better
+            scale = Math.min(maxW / GAME_WIDTH, availableH / GAME_HEIGHT);
+        } else {
+            // Integer scale on desktop for crisp pixels
+            scale = Math.min(
+                Math.floor(maxW / GAME_WIDTH),
+                Math.floor(maxH / GAME_HEIGHT)
+            ) || 1;
+        }
 
         this.canvas.style.width = `${GAME_WIDTH * scale}px`;
         this.canvas.style.height = `${GAME_HEIGHT * scale}px`;
