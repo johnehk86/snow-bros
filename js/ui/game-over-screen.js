@@ -42,10 +42,10 @@ export class GameOverScreen {
             this.renderer.drawText('PRESS ENTER TO CONTINUE', GAME_WIDTH / 2, 185, '#ffff88', 8, 'center');
         }
 
-        // Ad banner
+        // Ad text on canvas (clickable HTML banner is separate)
         const adGlow = Math.sin(this.timer * 0.08) * 0.3 + 0.7;
         const adColor = `rgba(255, 200, 100, ${adGlow})`;
         this.renderer.drawText('More fun AI games at', GAME_WIDTH / 2, GAME_HEIGHT - 28, '#88aacc', 8, 'center');
-        this.renderer.drawText('aicraftlog.com', GAME_WIDTH / 2, GAME_HEIGHT - 16, adColor, 8, 'center');
+        this.renderer.drawText('aicraftlog.com \u2197', GAME_WIDTH / 2, GAME_HEIGHT - 16, adColor, 8, 'center');
     }
 }

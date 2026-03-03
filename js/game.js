@@ -15,6 +15,7 @@ import { HUD } from './ui/hud.js';
 import { TitleScreen } from './ui/title-screen.js';
 import { GameOverScreen } from './ui/game-over-screen.js';
 import { AudioManager } from './audio/audio-manager.js';
+import { AdManager } from './ui/ad-manager.js';
 import { aabb } from './collision.js';
 import { SpriteRenderer } from './sprites/sprite-renderer.js';
 import { PLAYER_SPRITES } from './sprites/player-sprites.js';
@@ -34,6 +35,7 @@ export class Game {
         this.titleScreen = new TitleScreen(renderer);
         this.gameOverScreen = new GameOverScreen(renderer);
         this.audio = new AudioManager();
+        this.adManager = new AdManager();
         this.particles = new ParticleSystem();
 
         // Sprite system
@@ -53,6 +55,9 @@ export class Game {
 
         // Stage clear animation
         this.stageClearTimer = 0;
+
+        // Ad interstitial waiting flag
+        this.waitingForAd = false;
     }
 
     initSprites() {
@@ -524,6 +529,9 @@ export class Game {
 
     // --- Stage Clear ---
     updateStageClear() {
+        // If waiting for interstitial ad to close, do nothing
+        if (this.waitingForAd) return;
+
         this.stageClearTimer++;
         this.particles.update();
 
@@ -533,8 +541,20 @@ export class Game {
                 // Game complete!
                 this.gameOver(true);
             } else {
-                this.state = STATE_PLAYING;
-                this.loadStage(nextStage);
+                // Try showing an interstitial ad before next stage
+                const adShown = this.adManager.onStageClear(() => {
+                    // Ad closed — proceed to next stage
+                    this.waitingForAd = false;
+                    this.state = STATE_PLAYING;
+                    this.loadStage(nextStage);
+                });
+
+                if (adShown) {
+                    this.waitingForAd = true;
+                } else {
+                    this.state = STATE_PLAYING;
+                    this.loadStage(nextStage);
+                }
             }
         }
     }
